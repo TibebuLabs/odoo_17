@@ -1,0 +1,358 @@
+/* ============================================================
+   Library Management — Book Form Custom Styles
+   ============================================================ */
+
+/* ---------- Hero / Cover section ---------- */
+.o_library_book_form .o_book_hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.o_library_book_form .o_book_hero::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 50%;
+}
+
+.o_library_book_form .o_book_hero::after {
+    content: "";
+    position: absolute;
+    bottom: -40px;
+    left: -40px;
+    width: 150px;
+    height: 150px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 50%;
+}
+
+/* ---------- Cover image ---------- */
+.o_library_book_form .o_book_cover_wrapper {
+    width: 130px;
+    height: 180px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.o_library_book_form .o_book_cover_wrapper img,
+.o_library_book_form .o_book_cover_wrapper .o_field_image img {
+    width: 130px !important;
+    height: 180px !important;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.o_library_book_form .o_book_cover_placeholder {
+    font-size: 56px;
+    opacity: 0.5;
+}
+
+/* ---------- Hero title area ---------- */
+.o_library_book_form .o_book_title_area {
+    flex: 1;
+    min-width: 0;
+}
+
+.o_library_book_form .o_book_title_area h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+    line-height: 1.2;
+}
+
+.o_library_book_form .o_book_title_area .o_field_char {
+    color: #fff;
+}
+
+.o_library_book_form .o_book_title_area .o_field_char input {
+    color: #fff !important;
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 2px solid rgba(255,255,255,0.3) !important;
+    font-size: 1.8rem;
+    font-weight: 700;
+    padding: 4px 0;
+}
+
+.o_library_book_form .o_book_title_area .o_field_char input:focus {
+    border-bottom-color: rgba(255,255,255,0.8) !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.o_library_book_form .o_book_author_badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.85);
+    margin-top: 8px;
+    backdrop-filter: blur(4px);
+}
+
+/* ---------- Availability badge ---------- */
+.o_library_book_form .o_book_status_badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.o_library_book_form .o_book_status_badge.available {
+    background: rgba(40, 199, 111, 0.2);
+    color: #28c76f;
+    border: 1px solid rgba(40, 199, 111, 0.4);
+}
+
+.o_library_book_form .o_book_status_badge.borrowed {
+    background: rgba(234, 84, 85, 0.2);
+    color: #ea5455;
+    border: 1px solid rgba(234, 84, 85, 0.4);
+}
+
+/* ---------- Stat cards row ---------- */
+.o_library_book_form .o_book_stats_row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.o_library_book_form .o_book_stat_card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 1px solid #f0f0f0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.o_library_book_form .o_book_stat_card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.o_library_book_form .o_book_stat_card .stat-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.o_library_book_form .o_book_stat_card .stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #1a1a2e;
+}
+
+.o_library_book_form .o_book_stat_card .stat-label {
+    font-size: 0.72rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+}
+
+.o_library_book_form .o_book_stat_card.available-card .stat-value { color: #28c76f; }
+.o_library_book_form .o_book_stat_card.total-card    .stat-value { color: #0f3460; }
+.o_library_book_form .o_book_stat_card.borrows-card  .stat-value { color: #ff9f43; }
+
+/* ---------- Availability progress bar ---------- */
+.o_library_book_form .o_book_availability_bar {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 1px solid #f0f0f0;
+}
+
+.o_library_book_form .o_book_availability_bar .bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: #555;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.o_library_book_form .o_book_availability_bar .progress {
+    height: 10px;
+    border-radius: 10px;
+    background: #eef0f4;
+}
+
+.o_library_book_form .o_book_availability_bar .progress-bar {
+    border-radius: 10px;
+    transition: width 0.6s ease;
+}
+
+/* ---------- Detail cards grid ---------- */
+.o_library_book_form .o_book_details_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.o_library_book_form .o_book_detail_card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 1px solid #f0f0f0;
+}
+
+.o_library_book_form .o_book_detail_card .card-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #0f3460;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.o_library_book_form .o_book_detail_card .detail-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #fafafa;
+}
+
+.o_library_book_form .o_book_detail_card .detail-row:last-child {
+    border-bottom: none;
+}
+
+.o_library_book_form .o_book_detail_card .detail-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #f0f4ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+    color: #0f3460;
+}
+
+.o_library_book_form .o_book_detail_card .detail-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.o_library_book_form .o_book_detail_card .detail-content .detail-label {
+    font-size: 0.7rem;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.o_library_book_form .o_book_detail_card .detail-content .o_field_widget {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: #333;
+}
+
+/* ---------- Description card ---------- */
+.o_library_book_form .o_book_description_card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 1px solid #f0f0f0;
+}
+
+.o_library_book_form .o_book_description_card .card-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #0f3460;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.o_library_book_form .o_book_description_card .o_field_text {
+    color: #555;
+    line-height: 1.7;
+}
+
+/* ---------- Notebook tabs polish ---------- */
+.o_library_book_form .o_notebook .nav-tabs {
+    border-bottom: 2px solid #e9ecef;
+    gap: 4px;
+}
+
+.o_library_book_form .o_notebook .nav-link {
+    border: none !important;
+    border-radius: 8px 8px 0 0 !important;
+    color: #666;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 10px 20px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.o_library_book_form .o_notebook .nav-link.active {
+    background: #0f3460 !important;
+    color: #fff !important;
+    border-bottom: 2px solid #0f3460 !important;
+}
+
+/* ---------- Borrow history table inside notebook ---------- */
+.o_library_book_form .o_notebook .o_list_view .o_data_row:hover td {
+    background: #f0f4ff !important;
+}
+
+/* ---------- Responsive tweaks ---------- */
+@media (max-width: 768px) {
+    .o_library_book_form .o_book_hero {
+        flex-direction: column !important;
+        text-align: center;
+    }
+
+    .o_library_book_form .o_book_cover_wrapper {
+        margin: 0 auto;
+    }
+
+    .o_library_book_form .o_book_title_area h1 {
+        font-size: 1.4rem;
+    }
+}

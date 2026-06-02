@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ═══════════════════════════════════
+         MEMBER — List View
+    ═══════════════════════════════════ -->
+    <record id="view_library_member_list" model="ir.ui.view">
+        <field name="name">library.member.list</field>
+        <field name="model">library.member</field>
+        <field name="arch" type="xml">
+            <tree string="Members" class="o_lib_member_list"
+                  decoration-danger="state == 'suspended'"
+                  decoration-warning="state == 'expired'">
+                <field name="member_id"          string="🪪 ID"/>
+                <field name="name"               string="Full Name"/>
+                <field name="email"              string="Email"/>
+                <field name="phone"              string="Phone"        optional="show"/>
+                <field name="membership_date"    string="Member Since" optional="show"/>
+                <field name="expiry_date"        string="Expires"/>
+                <field name="active_borrow_count" string="Borrowed Now"/>
+                <field name="total_fine"         string="Fine Due"     optional="show"/>
+                <field name="state" widget="badge"
+                    decoration-success="state == 'active'"
+                    decoration-danger="state == 'suspended'"
+                    decoration-warning="state == 'expired'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════
+         MEMBER — Form View
+    ═══════════════════════════════════ -->
+    <record id="view_library_member_form" model="ir.ui.view">
+        <field name="name">library.member.form</field>
+        <field name="model">library.member</field>
+        <field name="arch" type="xml">
+            <form string="Member" js_class="library_member_form"
+                  class="o_lib_member_form">
+
+                <header>
+                    <button name="action_activate" string="✅ Activate"
+                            type="object" class="btn-success"
+                            invisible="state == 'active'"/>
+                    <button name="action_suspend"  string="🚫 Suspend"
+                            type="object" class="btn-danger"
+                            invisible="state == 'suspended'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="active,expired,suspended"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_borrows" type="object"
+                                class="oe_stat_button" icon="fa-book">
+                            <field name="borrow_count" widget="statinfo" string="Borrows"/>
+                        </button>
+                    </div>
+
+                    <!-- ╔══ HERO ══╗ -->
+                    <div class="lc-hero">
+                        <div class="lc-avatar">
+                            <field name="photo" widget="image" nolabel="1"
+                                   options="{'size': [100, 100]}"/>
+                        </div>
+                        <div class="lc-hero-text">
+                            <div class="lc-title">
+                                <field name="name" placeholder="Full Name"/>
+                            </div>
+                            <div class="lc-hero-sub">
+                                <i class="fa fa-id-card-o"/>
+                                <field name="member_id" readonly="1" nolabel="1"/>
+                            </div>
+                            <div class="lc-chips">
+                                <span class="lc-chip">
+                                    <i class="fa fa-envelope-o"/>
+                                    <field name="email" placeholder="Email" nolabel="1"/>
+                                </span>
+                                <span class="lc-chip">
+                                    <i class="fa fa-phone"/>
+                                    <field name="phone" placeholder="Phone" nolabel="1"/>
+                                </span>
+                            </div>
+                            <field name="state" widget="badge" nolabel="1"
+                                decoration-success="state == 'active'"
+                                decoration-danger="state == 'suspended'"
+                                decoration-warning="state == 'expired'"/>
+                        </div>
+                    </div>
+
+                    <!-- ╔══ BODY ══╗ -->
+                    <div class="lc-body">
+
+                        <!-- stat cards -->
+                        <div class="lc-stats">
+                            <div class="lc-stat c-orange">
+                                <div class="st-emoji">📖</div>
+                                <div class="st-val"><field name="active_borrow_count" nolabel="1"/></div>
+                                <div class="st-lbl">Borrowed Now</div>
+                            </div>
+                            <div class="lc-stat c-blue">
+                                <div class="st-emoji">📚</div>
+                                <div class="st-val"><field name="borrow_count" nolabel="1"/></div>
+                                <div class="st-lbl">All Time</div>
+                            </div>
+                            <div class="lc-stat c-red">
+                                <div class="st-emoji">💰</div>
+                                <div class="st-val"><field name="total_fine" nolabel="1"/></div>
+                                <div class="st-lbl">Fine Due</div>
+                            </div>
+                            <div class="lc-stat c-green">
+                                <div class="st-emoji">📋</div>
+                                <div class="st-val"><field name="max_books" nolabel="1"/></div>
+                                <div class="st-lbl">Max Allowed</div>
+                            </div>
+                        </div>
+
+                        <!-- membership timeline -->
+                        <div class="lc-timeline">
+                            <div class="lc-tl-item done">
+                                <div class="lc-tl-dot">🎉</div>
+                                <div class="lc-tl-lbl">Joined</div>
+                                <div class="lc-tl-val">
+                                    <field name="membership_date" nolabel="1"/>
+                                </div>
+                            </div>
+                            <div class="lc-tl-item warn">
+                                <div class="lc-tl-dot">📅</div>
+                                <div class="lc-tl-lbl">Expires</div>
+                                <div class="lc-tl-val">
+                                    <field name="expiry_date" nolabel="1"/>
+                                </div>
+                            </div>
+                            <div class="lc-tl-item">
+                                <div class="lc-tl-dot" style="font-size:16px;">📚</div>
+                                <div class="lc-tl-lbl">Max Books</div>
+                                <div class="lc-tl-val">
+                                    <field name="max_books" nolabel="1"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- detail grid -->
+                        <div class="lc-grid">
+
+                            <!-- Contact -->
+                            <div class="lc-card">
+                                <div class="lc-card-head">
+                                    <i class="fa fa-address-card-o"/> Contact Information
+                                </div>
+                                <div class="lc-row">
+                                    <div class="lc-row-icon"><i class="fa fa-envelope-o"/></div>
+                                    <div class="lc-row-content">
+                                        <div class="lc-row-lbl">Email</div>
+                                        <field name="email" placeholder="member@example.com"/>
+                                    </div>
+                                </div>
+                                <div class="lc-row">
+                                    <div class="lc-row-icon"><i class="fa fa-phone"/></div>
+                                    <div class="lc-row-content">
+                                        <div class="lc-row-lbl">Phone</div>
+                                        <field name="phone" placeholder="+1 555 000 0000"/>
+                                    </div>
+                                </div>
+                                <div class="lc-row">
+                                    <div class="lc-row-icon"><i class="fa fa-map-marker"/></div>
+                                    <div class="lc-row-content">
+                                        <div class="lc-row-lbl">Address</div>
+                                        <field name="address" placeholder="Street, City"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Membership -->
+                            <div class="lc-card">
+                                <div class="lc-card-head">
+                                    <i class="fa fa-id-badge"/> Membership Details
+                                </div>
+                                <div class="lc-row">
+                                    <div class="lc-row-icon"><i class="fa fa-calendar-check-o"/></div>
+                                    <div class="lc-row-content">
+                                        <div class="lc-row-lbl">Member Since</div>
+                                        <field name="membership_date"/>
+                                    </div>
+                                </div>
+                                <div class="lc-row">
+                                    <div class="lc-row-icon"><i class="fa fa-calendar-times-o"/></div>
+                                    <div class="lc-row-content">
+                                        <div class="lc-row-lbl">Expiry Date</div>
+                                        <field name="expiry_date"/>
+                                    </div>
+                                </div>
+                                <div class="lc-row">
+                                    <div class="lc-row-icon"><i class="fa fa-book"/></div>
+                                    <div class="lc-row-content">
+                                        <div class="lc-row-lbl">Max Books Allowed</div>
+                                        <field name="max_books"/>
+                                    </div>
+                                </div>
+                                <div class="lc-row">
+                                    <div class="lc-row-icon"><i class="fa fa-refresh"/></div>
+                                    <div class="lc-row-content">
+                                        <div class="lc-row-lbl">Currently Borrowed</div>
+                                        <field name="active_borrow_count"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- borrow history -->
+                        <notebook>
+                            <page string="📋 Borrow History" name="borrow_history">
+                                <field name="borrow_ids" nolabel="1">
+                                    <tree decoration-danger="state == 'overdue'"
+                                          decoration-success="state == 'returned'"
+                                          decoration-info="state == 'borrowed'"
+                                          decoration-muted="state == 'lost'">
+                                        <field name="reference"/>
+                                        <field name="book_id"/>
+                                        <field name="borrow_date"/>
+                                        <field name="due_date"/>
+                                        <field name="return_date"/>
+                                        <field name="fine_amount"/>
+                                        <field name="state" widget="badge"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </div><!-- /lc-body -->
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_library_member" model="ir.actions.act_window">
+        <field name="name">Members</field>
+        <field name="res_model">library.member</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ═══════════════════════════════════
+         BOOK — List View
+    ═══════════════════════════════════ -->
+    <record id="view_library_book_list" model="ir.ui.view">
+        <field name="name">library.book.list</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <tree string="Books" class="o_lib_book_list"
+                  decoration-danger="state == 'borrowed'"
+                  decoration-muted="state == 'lost'">
+                <field name="name"            string="📖 Title"/>
+                <field name="isbn"            string="ISBN"        optional="show"/>
+                <field name="author"          string="Author"/>
+                <field name="publisher"       string="Publisher"   optional="show"/>
+                <field name="category_id"     string="Category"/>
+                <field name="publish_date"    string="Published"   optional="hide"/>
+                <field name="total_copies"    string="Total"       optional="show"/>
+                <field name="available_copies" string="Available"/>
+                <field name="state" widget="badge"
+                    decoration-success="state == 'available'"
+                    decoration-danger="state == 'borrowed'"
+                    decoration-warning="state == 'lost'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════
+         BOOK — Form View
+    ═══════════════════════════════════ -->
+    <record id="view_library_book_form" model="ir.ui.view">
+        <field name="name">library.book.form</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <form string="Book" js_class="library_book_form"
+                  class="o_lib_book_form">
+
+                <header>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="available,borrowed"/>
+                </header>
+
+                <sheet>
+                    <!-- smart button -->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_borrows" type="object"
+                                class="oe_stat_button" icon="fa-exchange">
+                            <field name="borrow_count" widget="statinfo" string="Borrows"/>
+                        </button>
+                    </div>
+
+                    <!-- ╔══ HERO ══╗ -->
+                    <div class="lc-hero">
+                        <div class="lc-cover">
+                            <field name="cover_image" widget="image" nolabel="1"
+                                   options="{'size': [120, 168]}"/>
+                        </div>
+                        <div class="lc-hero-text">
+                            <div class="lc-title">
+                                <field name="name" placeholder="Book Title…"/>
+                            </div>
+                            <div class="lc-chips">
+                                <span class="lc-chip">
+                                    <i class="fa fa-user-o"/> <field name="author" placeholder="Author" nolabel="1"/>
+                                </span>
+                                <span class="lc-chip">
+                                    <i class="fa fa-building-o"/> <field name="publisher" placeholder="Publisher" nolabel="1"/>
+                                </span>
+                            </div>
+                            <field name="state" widget="badge" nolabel="1"
+                                decoration-success="state == 'available'"
+                                decoration-danger="state == 'borrowed'"
+                                decoration-warning="state == 'lost'"/>
+                        </div>
+                    </div>
+
+                    <!-- ╔══ BODY ══╗ -->
+                    <div class="lc-body">
+
+                        <!-- stat cards -->
+                        <div class="lc-stats">
+                            <div class="lc-stat c-blue">
+                                <div class="st-emoji">📚</div>
+                                <div class="st-val"><field name="total_copies" nolabel="1"/></div>
+                                <div class="st-lbl">Total Copies</div>
+                            </div>
+                            <div class="lc-stat c-green">
+                                <div class="st-emoji">✅</div>
+                                <div class="st-val"><field name="available_copies" nolabel="1"/></div>
+                                <div class="st-lbl">Available</div>
+                            </div>
+                            <div class="lc-stat c-orange">
+                                <div class="st-emoji">🔄</div>
+                                <div class="st-val"><field name="borrow_count" nolabel="1"/></div>
+                                <div class="st-lbl">Total Borrows</div>
+                            </div>
+                        </div>
+
+                        <!-- availability bar -->
+                        <div class="lc-avail-bar">
+                            <div class="ab-row">
+                                <span class="ab-title">📊 Shelf Availability</span>
+                                <span class="ab-count">
+                                    <field name="available_copies" nolabel="1"/> of
+                                    <field name="total_copies" nolabel="1"/> copies
+                                </span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar"
+                                     style="width:100%" aria-valuenow="100"
+                                     aria-valuemin="0" aria-valuemax="100"/>
+                            </div>
+                        </div>
+
+                        <!-- detail grid -->
+                        <div class="lc-grid">
+
+                            <!-- Publication card -->
+                            <div class="lc-card">
+                                <div class="lc-card-head">
+                                    <i class="fa fa-info-circle"/> Publication Details
+                                </div>
+                                <div class="lc-row">
+                                    <div class="lc-row-icon"><i class="fa fa-barcode"/></div>
+                                    <div class="lc-row-content">
+                                        <div class="lc-row-lbl">ISBN</div>
+                                        <field name="isbn" placeholder="978-x-xxxx-xxxx-x"/>
+                                    </div>
+                                </div>
+                                <div class="lc-row">
+                                    <div class="lc-row-icon"><i class="fa fa-tag"/></div>
+                                    <div class="lc-row-content">
+                                        <div class="lc-row-lbl">Category</div>
+                                        <field name="category_id" placeholder="Select…"
+                                               options="{'no_create_edit': True}"/>
+                                    </div>
+                                </div>
+                                <div class="lc-row">
+                                    <div class="lc-row-icon"><i class="fa fa-calendar"/></div>
+                                    <div class="lc-row-content">
+                                        <div class="lc-row-lbl">Publish Date</div>
+                                        <field name="publish_date"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Stock card -->
+                            <div class="lc-card">
+                                <div class="lc-card-head">
+                                    <i class="fa fa-cubes"/> Stock &amp; Inventory
+                                </div>
+                                <div class="lc-row">
+                                    <div class="lc-row-icon"><i class="fa fa-plus-square"/></div>
+                                    <div class="lc-row-content">
+                                        <div class="lc-row-lbl">Total Copies</div>
+                                        <field name="total_copies"/>
+                                    </div>
+                                </div>
+                                <div class="lc-row">
+                                    <div class="lc-row-icon"><i class="fa fa-check-square"/></div>
+                                    <div class="lc-row-content">
+                                        <div class="lc-row-lbl">Available Copies</div>
+                                        <field name="available_copies"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- description -->
+                        <div class="lc-card lc-desc">
+                            <div class="lc-card-head">
+                                <i class="fa fa-align-left"/> Description
+                            </div>
+                            <field name="description" nolabel="1"
+                                   placeholder="Write a short synopsis or notes about this book…"/>
+                        </div>
+
+                        <!-- borrow history -->
+                        <notebook>
+                            <page string="📋 Borrow History" name="borrow_history">
+                                <field name="borrow_ids" nolabel="1">
+                                    <tree decoration-danger="state == 'overdue'"
+                                          decoration-success="state == 'returned'"
+                                          decoration-info="state == 'borrowed'"
+                                          decoration-muted="state == 'lost'">
+                                        <field name="reference"/>
+                                        <field name="member_id"/>
+                                        <field name="borrow_date"/>
+                                        <field name="due_date"/>
+                                        <field name="return_date"/>
+                                        <field name="fine_amount"/>
+                                        <field name="state" widget="badge"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </div><!-- /lc-body -->
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════
+         BOOK CATEGORY — List View
+    ═══════════════════════════════════ -->
+    <record id="view_library_book_category_list" model="ir.ui.view">
+        <field name="name">library.book.category.list</field>
+        <field name="model">library.book.category</field>
+        <field name="arch" type="xml">
+            <tree string="Book Categories">
+                <field name="name"        string="🗂️ Category"/>
+                <field name="book_count"  string="Books"/>
+                <field name="description" string="Description"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════
+         BOOK CATEGORY — Form View
+    ═══════════════════════════════════ -->
+    <record id="view_library_book_category_form" model="ir.ui.view">
+        <field name="name">library.book.category.form</field>
+        <field name="model">library.book.category</field>
+        <field name="arch" type="xml">
+            <form string="Book Category" class="o_lib_book_form">
+                <sheet>
+                    <div class="lc-hero" style="padding:28px 36px; min-height:auto;">
+                        <div class="lc-hero-text">
+                            <div class="lc-title">
+                                <field name="name" placeholder="Category Name"/>
+                            </div>
+                            <span class="lc-chip" style="margin-top:10px;">
+                                <i class="fa fa-book"/>
+                                <field name="book_count" nolabel="1"/> books
+                            </span>
+                        </div>
+                    </div>
+                    <div class="lc-body">
+                        <div class="lc-card lc-desc">
+                            <div class="lc-card-head"><i class="fa fa-align-left"/> Description</div>
+                            <field name="description" placeholder="Describe this category…" nolabel="1"/>
+                        </div>
+                        <div class="lc-card">
+                            <div class="lc-card-head"><i class="fa fa-book"/> Books in Category</div>
+                            <field name="book_ids" nolabel="1">
+                                <tree decoration-danger="state == 'borrowed'" decoration-muted="state == 'lost'">
+                                    <field name="name"/>
+                                    <field name="author"/>
+                                    <field name="available_copies" string="Available"/>
+                                    <field name="total_copies"     string="Total"/>
+                                    <field name="state" widget="badge"
+                                        decoration-success="state == 'available'"
+                                        decoration-danger="state == 'borrowed'"/>
+                                </tree>
+                            </field>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_library_book" model="ir.actions.act_window">
+        <field name="name">Books</field>
+        <field name="res_model">library.book</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_library_book_category" model="ir.actions.act_window">
+        <field name="name">Book Categories</field>
+        <field name="res_model">library.book.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
