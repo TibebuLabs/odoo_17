@@ -1,0 +1,540 @@
+/* ================================================================
+   Library Management — Modern UI
+   Variables on :root so they resolve everywhere including
+   .lc-* children that live outside the scoped form class.
+   ================================================================ */
+
+:root {
+    --lc-dark:    #0f172a;
+    --lc-navy:    #1e3a5f;
+    --lc-blue:    #3b82f6;
+    --lc-indigo:  #6366f1;
+    --lc-green:   #22c55e;
+    --lc-orange:  #f97316;
+    --lc-red:     #ef4444;
+    --lc-yellow:  #eab308;
+    --lc-surface: #ffffff;
+    --lc-bg:      #f8fafc;
+    --lc-border:  #e2e8f0;
+    --lc-text:    #1e293b;
+    --lc-muted:   #64748b;
+    --lc-r:       14px;
+    --lc-shadow:  0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+    --lc-shadowL: 0 8px 32px rgba(15,23,42,.14);
+}
+
+/* ── Form background ── */
+.o_lib_book_form,
+.o_lib_member_form,
+.o_lib_borrow_form { background: var(--lc-bg); }
+
+/* ── Sheet: remove default padding so hero touches edges ── */
+.o_lib_book_form   > .o_form_sheet,
+.o_lib_member_form > .o_form_sheet,
+.o_lib_borrow_form > .o_form_sheet {
+    padding: 0 !important;
+    max-width: 100% !important;
+    background: var(--lc-bg);
+    overflow: visible;
+}
+
+/* ── Smart button box: keep it inside flow (not absolute) ── */
+.o_lib_book_form   .oe_button_box,
+.o_lib_member_form .oe_button_box {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    z-index: 20;
+    margin: 0;
+    background: transparent;
+}
+/* The sheet needs relative so the absolute button_box anchors to it */
+.o_lib_book_form   > .o_form_sheet,
+.o_lib_member_form > .o_form_sheet {
+    position: relative;
+}
+
+/* ══════════════════════════════════════════
+   HERO BANNER
+══════════════════════════════════════════ */
+.lc-hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1d4ed8 100%);
+    padding: 36px 40px 32px;
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+    position: relative;
+    overflow: hidden;
+    min-height: 180px;
+}
+.lc-hero::before {
+    content: ""; position: absolute;
+    width: 360px; height: 360px; border-radius: 50%;
+    background: rgba(255,255,255,.04);
+    top: -130px; right: -80px; pointer-events: none;
+}
+.lc-hero::after {
+    content: ""; position: absolute;
+    width: 180px; height: 180px; border-radius: 50%;
+    background: rgba(99,102,241,.14);
+    bottom: -70px; left: 60px; pointer-events: none;
+}
+
+/* book cover */
+.lc-cover {
+    width: 120px; height: 168px;
+    border-radius: 12px; overflow: hidden; flex-shrink: 0;
+    background: rgba(255,255,255,.1);
+    box-shadow: 0 20px 48px rgba(0,0,0,.5);
+    border: 2px solid rgba(255,255,255,.12);
+    position: relative; z-index: 1;
+}
+.lc-cover .o_field_image { width: 120px; height: 168px; display: block; }
+.lc-cover .o_field_image img {
+    width: 120px !important; height: 168px !important;
+    object-fit: cover; display: block; border-radius: 10px;
+}
+
+/* member avatar */
+.lc-avatar {
+    width: 100px; height: 100px;
+    border-radius: 50%; overflow: hidden; flex-shrink: 0;
+    background: rgba(255,255,255,.12);
+    box-shadow: 0 8px 32px rgba(0,0,0,.4);
+    border: 3px solid rgba(255,255,255,.22);
+    align-self: center;
+    position: relative; z-index: 1;
+}
+.lc-avatar .o_field_image { width: 100px; height: 100px; display: block; }
+.lc-avatar .o_field_image img {
+    width: 100px !important; height: 100px !important;
+    object-fit: cover; border-radius: 50%;
+}
+
+/* hero text */
+.lc-hero-text {
+    flex: 1; min-width: 0;
+    position: relative; z-index: 1; padding-top: 4px;
+}
+
+/* title */
+.lc-title {
+    font-size: 2rem; font-weight: 800;
+    color: #fff; line-height: 1.15;
+    margin: 0 0 8px;
+}
+/* override field char inside title */
+.lc-title .o_field_char { display: block; }
+.lc-title .o_field_char input,
+.lc-title .o_field_char span {
+    color: #fff !important;
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 2px solid rgba(255,255,255,.25) !important;
+    font-size: 2rem !important; font-weight: 800 !important;
+    padding: 0 0 3px !important;
+    box-shadow: none !important; outline: none !important;
+    width: 100% !important; line-height: 1.2 !important;
+}
+.lc-title .o_field_char input:focus {
+    border-bottom-color: rgba(255,255,255,.7) !important;
+}
+
+/* sub line (member ID) */
+.lc-hero-sub {
+    font-size: .82rem; color: rgba(255,255,255,.55);
+    margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+}
+.lc-hero-sub .o_field_char,
+.lc-hero-sub .o_field_char input,
+.lc-hero-sub .o_field_char span {
+    color: rgba(255,255,255,.55) !important;
+    background: transparent !important;
+    border: none !important; box-shadow: none !important;
+    font-size: .82rem !important;
+}
+
+/* chips row */
+.lc-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.lc-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 999px;
+    padding: 5px 14px;
+    font-size: .8rem; color: rgba(255,255,255,.88);
+    backdrop-filter: blur(6px);
+    transition: background .2s;
+}
+.lc-chip:hover { background: rgba(255,255,255,.18); }
+.lc-chip i { font-size: 12px; opacity: .7; }
+/* fields inside chips */
+.lc-chip .o_field_widget { display: inline !important; }
+.lc-chip .o_field_char,
+.lc-chip .o_field_char input,
+.lc-chip .o_field_char span,
+.lc-chip .o_field_many2one .o_form_uri,
+.lc-chip .o_field_many2one input {
+    color: rgba(255,255,255,.88) !important;
+    background: transparent !important;
+    border: none !important; box-shadow: none !important;
+    font-size: .8rem !important; padding: 0 !important;
+    min-width: 30px;
+}
+.lc-chip .o_field_integer,
+.lc-chip .o_field_integer span { color: rgba(255,255,255,.88) !important; font-size: .8rem !important; }
+
+/* ══════════════════════════════════════════
+   BODY (below hero)
+══════════════════════════════════════════ */
+.lc-body {
+    padding: 28px 40px;
+    display: flex; flex-direction: column; gap: 22px;
+}
+
+/* ══════════════════════════════════════════
+   STAT CARDS
+══════════════════════════════════════════ */
+.lc-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 14px;
+}
+.lc-stat {
+    background: var(--lc-surface);
+    border: 1px solid var(--lc-border);
+    border-radius: var(--lc-r);
+    padding: 20px 16px 16px;
+    text-align: center;
+    box-shadow: var(--lc-shadow);
+    transition: transform .2s, box-shadow .2s;
+    position: relative; overflow: hidden; cursor: default;
+}
+/* coloured bottom stripe */
+.lc-stat::after {
+    content: "";
+    position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+}
+.lc-stat:hover { transform: translateY(-4px); box-shadow: var(--lc-shadowL); }
+
+.lc-stat.c-blue::after   { background: var(--lc-blue); }
+.lc-stat.c-green::after  { background: var(--lc-green); }
+.lc-stat.c-orange::after { background: var(--lc-orange); }
+.lc-stat.c-red::after    { background: var(--lc-red); }
+.lc-stat.c-yellow::after { background: var(--lc-yellow); }
+.lc-stat.c-indigo::after { background: var(--lc-indigo); }
+
+.lc-stat .st-emoji { font-size: 26px; line-height: 1; margin-bottom: 10px; }
+.lc-stat .st-val   { font-size: 1.55rem; font-weight: 800; color: var(--lc-dark); line-height: 1; }
+.lc-stat .st-lbl   { font-size: .64rem; font-weight: 700; text-transform: uppercase; letter-spacing: .7px; color: var(--lc-muted); margin-top: 6px; }
+
+.lc-stat.c-blue   .st-val { color: var(--lc-blue); }
+.lc-stat.c-green  .st-val { color: var(--lc-green); }
+.lc-stat.c-orange .st-val { color: var(--lc-orange); }
+.lc-stat.c-red    .st-val { color: var(--lc-red); }
+.lc-stat.c-yellow .st-val { color: var(--lc-yellow); }
+.lc-stat.c-indigo .st-val { color: var(--lc-indigo); }
+
+/* Force field widgets inside stat value to look like plain numbers */
+.lc-stat .st-val .o_field_widget { display: inline !important; }
+.lc-stat .st-val .o_field_integer span,
+.lc-stat .st-val .o_field_float span,
+.lc-stat .st-val .o_field_integer,
+.lc-stat .st-val .o_field_float {
+    font-size: 1.55rem !important; font-weight: 800 !important;
+    color: inherit !important;
+}
+.lc-stat .st-val .o_field_date span,
+.lc-stat .st-val .o_field_date {
+    font-size: .9rem !important; font-weight: 700 !important;
+    color: inherit !important;
+}
+/* hide the auto-generated label Odoo adds */
+.lc-stat .st-val .o_field_widget > label,
+.lc-stat .st-val .o_wrap_label { display: none !important; }
+
+/* ══════════════════════════════════════════
+   AVAILABILITY PROGRESS BAR
+══════════════════════════════════════════ */
+.lc-avail-bar {
+    background: var(--lc-surface);
+    border: 1px solid var(--lc-border);
+    border-radius: var(--lc-r);
+    padding: 18px 22px;
+    box-shadow: var(--lc-shadow);
+}
+.lc-avail-bar .ab-row {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 10px;
+}
+.lc-avail-bar .ab-title { font-size: .78rem; font-weight: 700; color: var(--lc-text); }
+.lc-avail-bar .ab-count {
+    font-size: .78rem; color: var(--lc-muted);
+    display: inline-flex; align-items: center; gap: 4px;
+}
+.lc-avail-bar .ab-count .o_field_widget { display: inline !important; }
+.lc-avail-bar .ab-count .o_field_integer span,
+.lc-avail-bar .ab-count .o_field_integer {
+    font-size: .78rem !important; color: var(--lc-muted) !important;
+}
+.lc-avail-bar .progress {
+    height: 10px; border-radius: 10px;
+    background: var(--lc-border); overflow: hidden;
+}
+.lc-avail-bar .progress-bar {
+    border-radius: 10px;
+    transition: width .8s cubic-bezier(.4,0,.2,1);
+}
+
+/* ══════════════════════════════════════════
+   CARD GRID + DETAIL ROWS
+══════════════════════════════════════════ */
+.lc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 18px;
+}
+.lc-card {
+    background: var(--lc-surface);
+    border: 1px solid var(--lc-border);
+    border-radius: var(--lc-r);
+    padding: 20px 22px;
+    box-shadow: var(--lc-shadow);
+    transition: box-shadow .2s;
+}
+.lc-card:hover { box-shadow: var(--lc-shadowL); }
+
+.lc-card-head {
+    display: flex; align-items: center; gap: 8px;
+    font-size: .66rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: var(--lc-navy);
+    padding-bottom: 12px; margin-bottom: 4px;
+    border-bottom: 2px solid var(--lc-border);
+}
+.lc-card-head i { color: var(--lc-blue); font-size: 13px; }
+
+/* ── FIELD ROW: icon left, label+value right ── */
+.lc-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background .15s;
+}
+.lc-row:last-child { border-bottom: none; padding-bottom: 2px; }
+.lc-row:hover { background: #f8fafc; border-radius: 8px; padding-left: 4px; }
+
+.lc-row-icon {
+    width: 34px; height: 34px; flex-shrink: 0;
+    border-radius: 9px; background: #eff6ff;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--lc-blue); font-size: 13px;
+    transition: background .2s, color .2s;
+    margin-top: 1px;
+}
+.lc-row:hover .lc-row-icon { background: var(--lc-blue); color: #fff; }
+
+.lc-row-content { flex: 1; min-width: 0; }
+.lc-row-lbl {
+    font-size: .62rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .6px;
+    color: var(--lc-muted); margin-bottom: 1px;
+    line-height: 1.2;
+}
+
+/* field value styling inside rows */
+.lc-row-content .o_field_widget { display: block; }
+.lc-row-content .o_field_char span,
+.lc-row-content .o_field_integer span,
+.lc-row-content .o_field_float span,
+.lc-row-content .o_field_date span,
+.lc-row-content .o_field_many2one .o_form_uri {
+    font-size: .88rem !important; font-weight: 500 !important;
+    color: var(--lc-text) !important;
+}
+.lc-row-content .o_field_many2one .o_form_uri { color: var(--lc-blue) !important; }
+/* inputs in edit mode */
+.lc-row-content .o_field_widget input,
+.lc-row-content .o_field_widget textarea {
+    border: none !important;
+    border-bottom: 1px solid var(--lc-border) !important;
+    border-radius: 0 !important;
+    padding: 2px 0 !important;
+    font-size: .88rem !important; font-weight: 500 !important;
+    background: transparent !important; box-shadow: none !important;
+    color: var(--lc-text) !important; width: 100% !important;
+}
+.lc-row-content .o_field_widget input:focus,
+.lc-row-content .o_field_widget textarea:focus {
+    border-bottom-color: var(--lc-blue) !important;
+    box-shadow: 0 1px 0 var(--lc-blue) !important;
+    outline: none !important;
+}
+/* many2one dropdown */
+.lc-row-content .o_field_many2one input { color: var(--lc-text) !important; }
+/* hide Odoo's auto label in rows */
+.lc-row-content > .o_field_widget > label,
+.lc-row-content .o_wrap_label { display: none !important; }
+
+/* ══════════════════════════════════════════
+   DESCRIPTION / NOTES CARD
+══════════════════════════════════════════ */
+.lc-desc .o_field_text textarea {
+    border: 1px solid var(--lc-border) !important;
+    border-radius: 10px !important;
+    padding: 12px 14px !important;
+    font-size: .88rem !important; line-height: 1.75 !important;
+    color: var(--lc-text) !important;
+    min-height: 100px; resize: vertical; width: 100%;
+    background: #fafcff !important;
+    transition: border-color .2s, box-shadow .2s;
+}
+.lc-desc .o_field_text textarea:focus {
+    border-color: var(--lc-blue) !important;
+    box-shadow: 0 0 0 3px rgba(59,130,246,.1) !important;
+    outline: none !important;
+}
+
+/* ══════════════════════════════════════════
+   ALERT BOXES (fine / no-fine)
+══════════════════════════════════════════ */
+.lc-alert {
+    border-radius: var(--lc-r);
+    padding: 16px 20px;
+    display: flex; align-items: center; gap: 16px;
+}
+.lc-alert.danger  { background: #fef2f2; border: 1px solid #fecaca; }
+.lc-alert.success { background: #f0fdf4; border: 1px solid #bbf7d0; }
+.lc-alert .al-icon { font-size: 28px; flex-shrink: 0; }
+.lc-alert .al-body .al-title { font-weight: 700; font-size: .9rem; }
+.lc-alert.danger  .al-body .al-title { color: #991b1b; }
+.lc-alert.success .al-body .al-title { color: #166534; }
+.lc-alert .al-body .al-sub {
+    font-size: .78rem; color: var(--lc-muted); margin-top: 3px;
+    display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+}
+.lc-alert .al-body .al-sub .o_field_widget { display: inline !important; }
+.lc-alert .al-body .al-sub .o_field_integer span,
+.lc-alert .al-body .al-sub .o_field_float span,
+.lc-alert .al-body .al-sub .o_field_integer,
+.lc-alert .al-body .al-sub .o_field_float {
+    font-size: .78rem !important; color: var(--lc-muted) !important;
+}
+.lc-alert .al-amount {
+    margin-left: auto; font-size: 1.4rem; font-weight: 800; color: #dc2626; white-space: nowrap;
+}
+.lc-alert .al-amount .o_field_widget { display: inline !important; }
+.lc-alert .al-amount .o_field_float span,
+.lc-alert .al-amount .o_field_float {
+    font-size: 1.4rem !important; font-weight: 800 !important; color: #dc2626 !important;
+}
+
+/* ══════════════════════════════════════════
+   NOTEBOOK
+══════════════════════════════════════════ */
+.o_lib_book_form   .o_notebook,
+.o_lib_member_form .o_notebook,
+.o_lib_borrow_form .o_notebook {
+    background: var(--lc-surface);
+    border: 1px solid var(--lc-border);
+    border-radius: var(--lc-r);
+    overflow: hidden;
+    box-shadow: var(--lc-shadow);
+}
+.o_lib_book_form   .o_notebook .nav-tabs,
+.o_lib_member_form .o_notebook .nav-tabs,
+.o_lib_borrow_form .o_notebook .nav-tabs {
+    background: #f8fafc;
+    border-bottom: 2px solid var(--lc-border) !important;
+    padding: 0 16px; gap: 2px;
+}
+.o_lib_book_form   .o_notebook .nav-link,
+.o_lib_member_form .o_notebook .nav-link,
+.o_lib_borrow_form .o_notebook .nav-link {
+    border: none !important; border-radius: 8px 8px 0 0 !important;
+    font-size: .82rem; font-weight: 700; color: var(--lc-muted);
+    padding: 10px 20px; transition: all .2s;
+}
+.o_lib_book_form   .o_notebook .nav-link:hover,
+.o_lib_member_form .o_notebook .nav-link:hover,
+.o_lib_borrow_form .o_notebook .nav-link:hover {
+    color: var(--lc-blue); background: rgba(59,130,246,.07);
+}
+.o_lib_book_form   .o_notebook .nav-link.active,
+.o_lib_member_form .o_notebook .nav-link.active,
+.o_lib_borrow_form .o_notebook .nav-link.active {
+    color: var(--lc-blue) !important;
+    border-bottom: 2px solid var(--lc-blue) !important;
+    background: transparent !important;
+}
+.o_lib_book_form   .o_notebook .tab-content,
+.o_lib_member_form .o_notebook .tab-content,
+.o_lib_borrow_form .o_notebook .tab-content { padding: 20px; }
+.o_lib_book_form   .o_notebook .o_data_row:hover td,
+.o_lib_member_form .o_notebook .o_data_row:hover td { background: #eff6ff !important; }
+
+/* ══════════════════════════════════════════
+   MEMBERSHIP TIMELINE
+══════════════════════════════════════════ */
+.lc-timeline {
+    background: var(--lc-surface);
+    border: 1px solid var(--lc-border);
+    border-radius: var(--lc-r);
+    padding: 22px 28px;
+    box-shadow: var(--lc-shadow);
+    display: flex; align-items: flex-start; position: relative;
+}
+.lc-timeline::before {
+    content: "";
+    position: absolute;
+    left: 100px; right: 100px; top: 40px;
+    height: 2px; background: var(--lc-border); z-index: 0;
+}
+.lc-tl-item {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; position: relative; z-index: 1;
+}
+.lc-tl-dot {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--lc-border);
+    border: 3px solid var(--lc-surface);
+    box-shadow: 0 0 0 2px var(--lc-border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; margin-bottom: 8px; transition: all .3s;
+}
+.lc-tl-item.done  .lc-tl-dot { background: var(--lc-green);  box-shadow: 0 0 0 2px var(--lc-green),  0 4px 12px rgba(34,197,94,.3); }
+.lc-tl-item.warn  .lc-tl-dot { background: var(--lc-yellow); box-shadow: 0 0 0 2px var(--lc-yellow), 0 4px 12px rgba(234,179,8,.3); }
+.lc-tl-item.alert .lc-tl-dot { background: var(--lc-red);    box-shadow: 0 0 0 2px var(--lc-red),    0 4px 12px rgba(239,68,68,.3); }
+.lc-tl-lbl { font-size: .64rem; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--lc-muted); }
+.lc-tl-val { font-size: .8rem; font-weight: 600; color: var(--lc-text); margin-top: 2px; text-align: center; }
+.lc-tl-val .o_field_widget { display: inline !important; }
+.lc-tl-val .o_field_date span,
+.lc-tl-val .o_field_integer span,
+.lc-tl-val .o_field_date,
+.lc-tl-val .o_field_integer {
+    font-size: .8rem !important; font-weight: 600 !important; color: var(--lc-text) !important;
+}
+
+/* ══════════════════════════════════════════
+   LIST VIEWS — row hover
+══════════════════════════════════════════ */
+.o_lib_book_list   .o_data_row:hover td,
+.o_lib_member_list .o_data_row:hover td,
+.o_lib_borrow_list .o_data_row:hover td {
+    background: #eff6ff !important; cursor: pointer;
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .lc-hero   { flex-direction: column; padding: 24px 20px; }
+    .lc-cover, .lc-avatar { align-self: center; }
+    .lc-body   { padding: 18px 14px; }
+    .lc-stats  { grid-template-columns: repeat(2, 1fr); }
+    .lc-grid   { grid-template-columns: 1fr; }
+    .lc-timeline { flex-direction: column; gap: 16px; }
+    .lc-timeline::before { display: none; }
+}
